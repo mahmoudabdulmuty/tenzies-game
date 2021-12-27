@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import Die from './components/Die';
 export default function App() {
-	const [randomArrOfNums] = useState(generateRandomArrNums());
-
+	const [randomArrOfNums, setRandomArrOfNums] = useState(
+		generateRandomArrNums()
+	);
 	function generateRandomArrNums() {
 		const arrOfRandomNums = [];
 		for (let i = 0; i < 10; i++) {
@@ -13,6 +14,9 @@ export default function App() {
 		}
 		return arrOfRandomNums;
 	}
+	const rollDice = () => {
+		setRandomArrOfNums(generateRandomArrNums());
+	};
 	return (
 		<div className="container">
 			<main className="main">
@@ -21,6 +25,9 @@ export default function App() {
 						<Die key={index} value={randomNum} />
 					))}
 				</div>
+				<button onClick={rollDice} className="roll-dice">
+					Roll
+				</button>
 			</main>
 		</div>
 	);
