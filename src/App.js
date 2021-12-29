@@ -35,11 +35,16 @@ export default function App() {
 		return arrOfRandomNums;
 	}
 	const rollDice = () => {
-		setDice((oldDice) =>
-			oldDice.map((die) => {
-				return die.isHeld ? die : generateNewDie();
-			})
-		);
+		if (tenzies) {
+			setDice(generateRandomArrNums());
+			setTenzies(false);
+		} else {
+			setDice((oldDice) =>
+				oldDice.map((die) => {
+					return die.isHeld ? die : generateNewDie();
+				})
+			);
+		}
 	};
 	const holdDice = (id) => {
 		setDice((oldDice) =>
