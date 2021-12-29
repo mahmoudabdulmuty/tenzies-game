@@ -1,9 +1,20 @@
 import { nanoid } from 'nanoid';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Confetti from 'react-confetti';
 import Die from './components/Die';
 
 export default function App() {
 	const [dice, setDice] = useState(generateRandomArrNums());
+	const [tenzies, setTenzies] = useState(false);
+
+	useEffect(() => {
+		const allHeld = dice.every((die) => die.isHeld);
+		const firstValue = dice[0].value;
+		const allValuesEqual = dice.every((die) => die.value === firstValue);
+		if (allHeld && allValuesEqual) {
+			setTenzies(true);
+		}
+	}, [dice]);
 
 	function generateNewDie() {
 		const min = 1;
@@ -37,8 +48,10 @@ export default function App() {
 			})
 		);
 	};
+
 	return (
 		<div className="container">
+			{tenzies && <Confetti />}
 			<main className="main">
 				<h1 className="title">Tenzies</h1>
 				<p className="instructions">
@@ -56,7 +69,7 @@ export default function App() {
 					))}
 				</div>
 				<button onClick={rollDice} className="roll-dice">
-					Roll
+					{tenzies ? 'New Game' : 'Roll'}
 				</button>
 			</main>
 		</div>
